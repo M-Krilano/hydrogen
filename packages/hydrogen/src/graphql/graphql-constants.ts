@@ -2187,20 +2187,36 @@ fragment Model3DFragment on Model3d {
 `;
 
 /**
-*```
-* fragment MetafieldFragment on Metafield {
-*   id
-*   type
-*   namespace
-*   key
-*   value
-*   createdAt
-*   updatedAt
-*   description
-* }
-
-*```
-*/
+ *```
+ * fragment MetafieldFragment on Metafield {
+ *   id
+ *   type
+ *   namespace
+ *   key
+ *   value
+ *   createdAt
+ *   updatedAt
+ *   description
+ *   reference @include(if: $includeReferenceMetafieldDetails) {
+ *     __typename
+ *     ... on MediaImage {
+ *       mediaContentType
+ *       image {
+ *         ...ImageFragment
+ *       }
+ *     }
+ *   }
+ * }
+ * fragment ImageFragment on Image {
+ *   id
+ *   url
+ *   altText
+ *   width
+ *   height
+ * }
+ *
+ *```
+ */
 export const MetafieldFragment: string = `fragment MetafieldFragment on Metafield {
   id
   type
@@ -2210,6 +2226,22 @@ export const MetafieldFragment: string = `fragment MetafieldFragment on Metafiel
   createdAt
   updatedAt
   description
+  reference @include(if: $includeReferenceMetafieldDetails) {
+    __typename
+    ... on MediaImage {
+      mediaContentType
+      image {
+        ...ImageFragment
+      }
+    }
+  }
+}
+fragment ImageFragment on Image {
+  id
+  url
+  altText
+  width
+  height
 }
 `;
 
@@ -2344,6 +2376,15 @@ export const MoneyFragment: string = `fragment MoneyFragment on MoneyV2 {
  *   createdAt
  *   updatedAt
  *   description
+ *   reference @include(if: $includeReferenceMetafieldDetails) {
+ *     __typename
+ *     ... on MediaImage {
+ *       mediaContentType
+ *       image {
+ *         ...ImageFragment
+ *       }
+ *     }
+ *   }
  * }
  *
  * fragment VariantFragment on ProductVariant {
@@ -2451,6 +2492,14 @@ export const MoneyFragment: string = `fragment MoneyFragment on MoneyV2 {
  *   sources {
  *     url
  *   }
+ * }
+ *
+ * fragment ImageFragment on Image {
+ *   id
+ *   url
+ *   altText
+ *   width
+ *   height
  * }
  *
  *
@@ -2633,6 +2682,15 @@ fragment MetafieldFragment on Metafield {
   createdAt
   updatedAt
   description
+  reference @include(if: $includeReferenceMetafieldDetails) {
+    __typename
+    ... on MediaImage {
+      mediaContentType
+      image {
+        ...ImageFragment
+      }
+    }
+  }
 }
 
 fragment VariantFragment on ProductVariant {
@@ -2740,6 +2798,14 @@ fragment Model3DFragment on Model3d {
   sources {
     url
   }
+}
+
+fragment ImageFragment on Image {
+  id
+  url
+  altText
+  width
+  height
 }
 
 
